@@ -3,31 +3,28 @@ import time
 from pygame.locals import *
 import pygame
 import sys
-
 fruits = ["apple", "grapes", "bell", "watermelon", "cherries", "seven", "crown"]
-p = [0.3, 0.16, 0.14,0.13,0.1,0.9, 0.8]
+p = [0.4, 0.2, 0.18, 0.12, 0.14, 0.04, 0.02]
+
 def game (screen, images, player_state):
     player_state['count'] += 1
-    if player_state['balance'] <=0:
-        time.sleep(1)
-        force_end()
+    check_balance(player_state)
+    check_bet(player_state)
     end()
     result = [] 
     print("let's play slot machine")
-    bet = 500
-    player_state['balance'] -= bet
+    player_state['balance'] -= player_state['bet']
     play(screen, images, result,player_state)
     print("result :" ,result)
     if result[0] == result[1] == result[2]:
         bingo = result[0]
-        if bingo == "apple": player_state['balance'] += 2000
-        elif bingo == "grapes": player_state['balance'] += 3000
-        elif bingo == "bell": player_state['balance'] += 5000
-        elif bingo == "watermelon": player_state['balance'] += 6000
-        elif bingo == "cherries": player_state['balance'] += 7000
-        elif bingo == "seven": player_state['balance'] += 77777
-        elif bingo == "crown": player_state['balance'] += 100000
-
+        if bingo == "apple": player_state['balance'] += 2 * player_state['bet']
+        elif bingo == "grapes": player_state['balance'] += 3 * player_state['bet']
+        elif bingo == "bell": player_state['balance'] += 5 * player_state['bet']
+        elif bingo == "watermelon": player_state['balance'] += 6 * player_state['bet']
+        elif bingo == "cherries": player_state['balance'] += 7 * player_state['bet']
+        elif bingo == "seven": player_state['balance'] += 9 * player_state['bet']
+        elif bingo == "crown": player_state['balance'] += 13 * player_state['bet']
     print("your balance : ", player_state['balance'])
     print("your count: ", player_state['count'])
     
@@ -35,7 +32,7 @@ def game (screen, images, player_state):
 def random_roll(screen, images, i):
     start_time = time.perf_counter()
     while True:
-        time.sleep(0.1)
+        time.sleep(0.05)
         end()
         for j in range(i, 3):
             recent = random.choices(fruits, weights = p, k = 1)[0]
@@ -45,7 +42,7 @@ def random_roll(screen, images, i):
         end_time = time.perf_counter()
         elapse_time = end_time - start_time
         pygame.display.flip()
-        if elapse_time >= 2.0:
+        if elapse_time >= 1.5:
             break
 
 def end():
@@ -58,7 +55,7 @@ def force_end():
     pygame.quit()
     sys.exit()
 def play(screen, images, result, player_state):
-    if player_state['count'] % 5 != 0:
+    if player_state['count'] % 10 != 0:
         for i in range(3):
                 print(f"--- Spinning reel {i + 1} ---")
                 random_roll(screen, images, i)
@@ -80,3 +77,21 @@ def start_screen(screen, images):
     screen.blit(images['apple'], (300 + (1 * 150), 270))
     screen.blit(images['apple'], (300 + (2 * 150), 270))
     pygame.display.flip()
+
+def increase_bet(player_state):
+    if player_state['balance'] - player_state['bet'] >= 100:  
+        player_state['bet'] += 100
+        print(player_state['bet'])
+def decrease_bet(player_state):
+    if player_state['bet'] > 100 and player_state['balance'] > 100:
+        player_state['bet'] -= 100
+        print(player_state['bet'])
+def check_bet(player_state):
+     if player_state['balance'] - player_state['bet'] <=0:
+        player_state['bet'] = player_state['balance']
+def check_balance(player_state):
+    if player_state['balance'] <=0:
+        time.sleep(1)
+        force_end()
+        
+

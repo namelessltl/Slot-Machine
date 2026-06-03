@@ -26,6 +26,7 @@ def load_image():
     
     return images
 
+
 clock = pygame.time.Clock()
 
 # Color Definitions
@@ -33,6 +34,10 @@ WHITE = (255, 255, 255)
 BG_COLOR = (30, 30, 40)
 BUTTON_COLOR = (50, 150, 250)
 HOVER_COLOR = (100, 180, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (50, 153, 213)
+
 
 class Button:
     def __init__(self, text, x, y, width, height, callback):
@@ -61,3 +66,28 @@ class Button:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
                 self.callback()
+
+class Ribbon:
+    def __init__(self, text, x, y, width, height):
+        self.text = text
+        self.rect = pygame.Rect(x, y, width, height)
+        
+        # Font setup
+        self.font = pygame.font.SysFont("Arial", 30)
+        self.text_surf = self.font.render(self.text, True, WHITE)
+        self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+
+    def update_text(self, new_text):
+        if self.text != new_text: 
+            self.text = new_text
+            self.text_surf = self.font.render(self.text, True, WHITE)
+            self.text_rect = self.text_surf.get_rect(center=self.rect.center)
+            
+    def draw(self, surface):
+        current_color = GREEN
+        pygame.draw.rect(surface, current_color, self.rect, border_radius=8)
+        surface.blit(self.text_surf, self.text_rect) 
+    
+
+
+        
