@@ -25,6 +25,7 @@ bet_ribbon = UI.Ribbon(f'Bet: ${player_state["bet"]}', 550, 20, 150, 50)
 btn_spin = UI.Button('Play ?',100, 100, 150, 100,lambda: main.game(screen, images,player_state)) 
 btn_up = UI.Button('UP',450, 100, 150, 100,lambda: main.increase_bet(player_state)) 
 btn_dwn = UI.Button('DOWN ',600, 100, 150, 100,lambda: main.decrease_bet(player_state)) 
+btn_allin = UI.Button('All in' , 750, 100, 150, 100,lambda: main.allin(player_state))
 
 while running:
     # poll for events
@@ -37,6 +38,7 @@ while running:
         btn_spin.handle_event(event)
         btn_up.handle_event(event)
         btn_dwn.handle_event(event)
+        btn_allin.handle_event(event)
     count_ribbon.update_text(f'Time: {player_state["count"]}')
     balance_ribbon.update_text(f'Balance: ${player_state["balance"]}')
     bet_ribbon.update_text(f'Bet: ${player_state["bet"]}')
@@ -44,6 +46,7 @@ while running:
     btn_spin.draw(screen)
     btn_up.draw(screen)
     btn_dwn.draw(screen)
+    btn_allin.draw(screen)
 
     count_ribbon.draw(screen)
     balance_ribbon.draw(screen)

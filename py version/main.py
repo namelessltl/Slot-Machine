@@ -93,5 +93,6 @@ def check_balance(player_state):
     if player_state['balance'] <=0:
         time.sleep(1)
         force_end()
-        
+def allin(player_state):
+    player_state['bet'] = player_state['balance']
 
