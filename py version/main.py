@@ -32,12 +32,12 @@ def game (screen, images, player_state):
 def random_roll(screen, images, i):
     start_time = time.perf_counter()
     while True:
-        time.sleep(0.05)
+        time.sleep(0.01)
         end()
         for j in range(i, 3):
             recent = random.choices(fruits, weights = p, k = 1)[0]
-            x_pos = 300 + (j * 150)
-            screen.blit(images[recent], (x_pos,270))
+            x_pos = 275 + (j * 130)
+            screen.blit(images[recent], (x_pos,300))
 
         end_time = time.perf_counter()
         elapse_time = end_time - start_time
@@ -61,7 +61,7 @@ def play(screen, images, result, player_state):
                 random_roll(screen, images, i)
                 choice = random.choices(fruits, weights = p, k = 1)[0]
                 result.append(choice)
-                screen.blit(images[choice], (300 + (i * 150), 270))
+                screen.blit(images[choice], (275 + (i * 130), 300))
                 pygame.display.flip()
     else:
         choice = random.choices(fruits, weights = p, k = 1)[0]
@@ -69,13 +69,13 @@ def play(screen, images, result, player_state):
                 print(f"--- Spinning reel {i + 1} ---")
                 random_roll(screen, images, i)
                 result.append(choice)
-                screen.blit(images[choice], (300 + (i * 150), 270))
+                screen.blit(images[choice], (275 + (i * 130), 300))
                 pygame.display.flip()
 def start_screen(screen, images):
     screen.blit(images['background'], (0, 0))
-    screen.blit(images['apple'], (300 + (0 * 150), 270))
-    screen.blit(images['apple'], (300 + (1 * 150), 270))
-    screen.blit(images['apple'], (300 + (2 * 150), 270))
+    screen.blit(images['apple'], (275 + (0 * 130), 300))
+    screen.blit(images['apple'], (275 + (1 * 130), 300))
+    screen.blit(images['apple'], (275 + (2 * 130), 300))
     pygame.display.flip()
 
 def increase_bet(player_state):

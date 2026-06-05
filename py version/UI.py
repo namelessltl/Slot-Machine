@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 import os 
+import main
 
 def load_image():
 
@@ -8,7 +9,7 @@ def load_image():
     
     images['background'] = pygame.image.load(os.path.join('assest','background.jpg')).convert()
 
-    icon_size = (120, 120)
+    icon_size = (80, 80)
     apple = pygame.image.load(os.path.join('assest','apple.png')).convert()
     images['apple'] = pygame.transform.scale(apple, icon_size)
     bell = pygame.image.load(os.path.join('assest','bell.png')).convert()
@@ -89,5 +90,32 @@ class Ribbon:
         surface.blit(self.text_surf, self.text_rect) 
     
 
-
+class UImanager:
+    def __init__(self, screen, images, player_state):
+        #Ribbon
+        self.count_ribbon = Ribbon(f'Time: {player_state["count"]}', 50, 20, 150, 50)
+        self.balance_ribbon = Ribbon(f'Balance: ${player_state["balance"]}', 250, 20, 250, 50)
+        self.bet_ribbon = Ribbon(f'Bet: ${player_state["bet"]}', 550, 20, 150, 50)
+        #Button
+        self.btn_spin = Button('Spin',365, 475, 160, 70,lambda: main.game(screen, images,player_state)) 
+        self.btn_up = Button('UP',450, 100, 150, 100,lambda: main.increase_bet(player_state)) 
+        self.btn_dwn = Button('DOWN ',600, 100, 150, 100,lambda: main.decrease_bet(player_state)) 
+        self.btn_allin = Button('All in' , 750, 100, 150, 100,lambda: main.allin(player_state))
+    def handlEvent(self, event):
+        self.btn_spin.handle_event(event)
+        self.btn_up.handle_event(event)
+        self.btn_dwn.handle_event(event)
+        self.btn_allin.handle_event(event)
+    def update_and_draw(self, screen, player_state):
+        self.count_ribbon.update_text(f'Time: {player_state["count"]}')
+        self.balance_ribbon.update_text(f'Balance: ${player_state["balance"]}')
+        self.bet_ribbon.update_text(f'Bet: ${player_state["bet"]}')
         
+        self.btn_spin.draw(screen)
+        self.btn_up.draw(screen)
+        self.btn_dwn.draw(screen)
+        self.btn_allin.draw(screen)
+
+        self.count_ribbon.draw(screen)
+        self.balance_ribbon.draw(screen)
+        self.bet_ribbon.draw(screen)
