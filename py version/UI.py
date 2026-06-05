@@ -98,9 +98,9 @@ class UImanager:
         self.bet_ribbon = Ribbon(f'Bet: ${player_state["bet"]}', 550, 20, 150, 50)
         #Button
         self.btn_spin = Button('Spin',365, 475, 160, 70,lambda: main.game(screen, images,player_state)) 
-        self.btn_up = Button('UP',450, 100, 150, 100,lambda: main.increase_bet(player_state)) 
-        self.btn_dwn = Button('DOWN ',600, 100, 150, 100,lambda: main.decrease_bet(player_state)) 
-        self.btn_allin = Button('All in' , 750, 100, 150, 100,lambda: main.allin(player_state))
+        self.btn_up = Button('UP',700, 200, 150, 100,lambda: main.increase_bet(player_state)) 
+        self.btn_dwn = Button('DOWN ',700, 305, 150, 100,lambda: main.decrease_bet(player_state)) 
+        self.btn_allin = Button('All in' , 700, 410, 150, 100,lambda: main.allin(player_state))
     def handlEvent(self, event):
         self.btn_spin.handle_event(event)
         self.btn_up.handle_event(event)
