@@ -3,6 +3,7 @@ import time
 from pygame.locals import *
 import pygame
 import sys
+import sound
 fruits = ["apple", "grapes", "bell", "watermelon", "cherries", "seven", "crown"]
 p = [0.4, 0.2, 0.18, 0.12, 0.14, 0.04, 0.02]
 
@@ -17,6 +18,7 @@ def game (screen, images, player_state):
     play(screen, images, result,player_state)
     print("result :" ,result)
     if result[0] == result[1] == result[2]:
+        sound.Soundmanager.sounds["win"].play()
         bingo = result[0]
         if bingo == "apple": player_state['balance'] += 2 * player_state['bet']
         elif bingo == "grapes": player_state['balance'] += 3 * player_state['bet']
@@ -55,7 +57,7 @@ def force_end():
     pygame.quit()
     sys.exit()
 def play(screen, images, result, player_state):
-    if player_state['count'] % 10 != 0:
+    if player_state['count'] % 2 != 0:
         for i in range(3):
                 print(f"--- Spinning reel {i + 1} ---")
                 random_roll(screen, images, i)
@@ -79,20 +81,25 @@ def start_screen(screen, images):
     pygame.display.flip()
 
 def increase_bet(player_state):
+    check_bet(player_state)
     if player_state['balance'] - player_state['bet'] >= 100:  
+        sound.Soundmanager.sounds["cashin"].play()
         player_state['bet'] += 100
         print(player_state['bet'])
 def decrease_bet(player_state):
+    check_bet(player_state)
     if player_state['bet'] > 100 and player_state['balance'] > 100:
+        sound.Soundmanager.sounds["cashin"].play()
         player_state['bet'] -= 100
         print(player_state['bet'])
 def check_bet(player_state):
-     if player_state['balance'] - player_state['bet'] <=0:
+     if player_state['balance'] < player_state['bet'] :
         player_state['bet'] = player_state['balance']
 def check_balance(player_state):
     if player_state['balance'] <=0:
         time.sleep(1)
         force_end()
 def allin(player_state):
+    sound.Soundmanager.sounds["cashin"].play()
     player_state['bet'] = player_state['balance']
 

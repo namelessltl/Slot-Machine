@@ -3,6 +3,7 @@ from pygame.locals import *
 import UI
 import main
 import sys
+import sound  
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((920, 739))
@@ -15,10 +16,12 @@ player_state = {
     "count": 0,
     "bet": 100
 }
+sound.Soundmanager.soundload()
+pygame.mixer.music.play(-1)
 images = UI.load_image()
 main.start_screen(screen, images)   
 ui_manager = UI.UImanager(screen, images, player_state)
-
+pygame.display.set_icon(images['icon'])
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window

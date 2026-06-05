@@ -7,6 +7,7 @@ def load_image():
 
     images = {}
     
+    images['icon'] = pygame.image.load(os.path.join('assest','icon.jpg'))
     images['background'] = pygame.image.load(os.path.join('assest','background.jpg')).convert()
 
     icon_size = (80, 80)
